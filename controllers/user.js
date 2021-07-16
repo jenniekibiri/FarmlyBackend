@@ -1,5 +1,7 @@
 import { User } from '../models/user.js';
 export default class UserController {
+//create user
+
 
     static async getUsers(req,res){
         User.find((err, user) => {
@@ -12,4 +14,5 @@ export default class UserController {
     static async getUser(req,res){
         res.status(200).send({message:'user'})
     }
+
 }
