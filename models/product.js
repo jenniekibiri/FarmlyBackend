@@ -17,12 +17,12 @@ const productSchema = new mongoose.Schema({
     trim: true,
   },
   image: {
-    type: String,
-    required: true,
-    trim: true,
+    data: Buffer,
+    contentType: String
   },
   quantity: {
     type: Number,
+    required: true,
     required: true,
     trim: true,
   },

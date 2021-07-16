@@ -1,41 +1,79 @@
-import { Category } from '../models/Category.js';
-export default class CategoryController {
+import { Category } from "../models/Category.js";
+
 //create Category
-static async createCategory (req, res,next) {
-    console.log(req.body)
-    const categoryExists = await Category.findOne({ categoryName: req.body.categoryName });
-    if (categoryExists) {
-      return res.status(403).json({
-        error: "category exists in the database",
-      });
-    }
-    const category = new Category(req.body);
-    category
-      .save()
-      .then(() => {
-        res.json({
-          message: "Category added successfully!",
-          category,
-        });
-      })
-      .catch((error) => {
-        res.json({
-          error,
-        });
-      });
+export const categoryById = (req, res, next, id) => {
+  Category.findById(id).exec((err, category) => {
+      if (err || !category) {
+          return res.status(400).json({
+              error: 'Category does not exist'
+          });
+      }
+      req.category = category;
+      next();
+  });
+};
 
-}
+export const create = (req, res) => {
+  const category = new Category(req.body);
+  category.save((err, data) => {
+      if (err) {
+          return res.status(400).json({
+              error: errorHandler(err)
+          });
+      }
+      res.json({ data });
+  });
+};
 
-    static async getCategories(req,res){
-        Category.find((err, category) => {
-            if (err) {
-              return res.status(400).json({ error: err });
-            }
-            res.json(category );
-          }).select("CategoryName created updated");
-    }
-    static async getCategory(req,res){
-        res.status(200).send({message:'category'})
-    }
+export const read = (req, res) => {
+  return res.json(req.category);
+};
 
-}
+export const update = (req, res) => {
+  console.log('req.body', req.body);
+  console.log('category update param', req.params.categoryId);
+
+  const category = req.category;
+  category.name = req.body.name;
+  category.save((err, data) => {
+      if (err) {
+          return res.status(400).json({
+              error: errorHandler(err)
+          });
+      }
+      res.json(data);
+  });
+};
+
+export const remove = (req, res) => {
+  const category = req.category;
+  Product.find({ category }).exec((err, data) => {
+      if (data.length >= 1) {
+          return res.status(400).json({
+              message: `Sorry. You cant delete ${category.name}. It has ${data.length} associated products.`
+          });
+      } else {
+          category.remove((err, data) => {
+              if (err) {
+                  return res.status(400).json({
+                      error: errorHandler(err)
+                  });
+              }
+              res.json({
+                  message: 'Category deleted'
+              });
+          });
+      }
+  });
+};
+//working
+export const list = (req, res) => {
+  Category.find().exec((err, data) => {
+      if (err) {
+          return res.status(400).json({
+              error: errorHandler(err)
+          });
+      }
+      res.json(data);
+  });
+};

@@ -1,45 +1,57 @@
-import { User } from '../models/user.js';
-export default class UserController {
-//create user
-static async createUser (req, res,next) {
-  console.log(req.body)
-  const userExists = await User.findOne({ email: req.body.email });
-  if (userExists) {
-    return res.status(403).json({
-      error: "email is already taken Login!",
-    });
-  }
+import { User } from "../models/user.js";
 
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    req.body.password = hash;
-    const user = new User(req.body);
-    user
-      .save()
-      .then(() => {
-        res.json({
-          message: "User added successfully!",
-          user,
-        });
-      })
-      .catch((error) => {
-        res.json({
-          error,
-        });
-      });
+export const userById = (req, res, next, id) => {
+  User.findById(id).exec((err, user) => {
+    if (err || !user) {
+      return res.status(400).json({ error: "user is not found" });
+    }
+
+    req.profile = user;
+    next();
   });
-  next()
-}
+};
+export const hasAuthorization = (req, res) => {
+  const authorized =
+    req.profile && req.auth && req.profile._id === req.auth._id;
 
-    static async getUsers(req,res){
-        User.find((err, user) => {
-            if (err) {
-              return res.status(400).json({ error: err });
-            }
-            res.json(user );
-          }).select("name email created updated");
+  if (!authorized) {
+    return res
+      .status(403)
+      .json({ error: "user is not authorized to perform this action" });
+  }
+};
+export const allUsers = (req, res, next) => {
+  User.find((err, user) => {
+    if (err) {
+      return res.status(400).json({ error: err });
     }
-    static async getUser(req,res){
-        res.status(200).send({message:'user'})
+    res.json(user );
+  }).select("name email created updated");
+};
+export const getUser = (req, res) => {
+  req.profile.password = undefined;
+  return res.json(req.profile);
+};
+export const updateUser = (req, res) => {
+  let user = req.profile;
+  user = _.extend(user, req.body);
+  user.updated = Date.now();
+  user.save((err) => {
+    if (err) {
+      return res.status(400).json({
+        error: "you're not authorized to perform this action",
+      });
     }
-
-}
+    user.password = undefined;
+    res.json({ user });
+  });
+};
+export const deleteUser = (req, res) => {
+  const user = req.profile;
+  user.remove((err, user) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json({ message: "user deleted successfully" });
+  });
+};

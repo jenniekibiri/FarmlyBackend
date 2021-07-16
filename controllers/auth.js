@@ -1,11 +1,7 @@
 import { User } from '../models/user.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-
-export default class authController {
-//create user
-static async createUser (req, res) {
-  console.log(req.body)
+export const register = async (req, res, next) => {
   const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
     return res.status(403).json({
@@ -19,22 +15,20 @@ static async createUser (req, res) {
     user
       .save()
       .then(() => {
-          res.status(200).json({
+        res.json({
           message: "User added successfully!",
           user,
         });
       })
       .catch((error) => {
-         res.status(500).json({
+        res.json({
           error,
         });
       });
   });
-
-}
-//user login
-static async userLogin (req, res) {
-    const { email, password } = req.body;
+};
+export const login = (req, res, next) => {
+  const { email, password } = req.body;
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
       return res.status(401).json({
@@ -57,8 +51,8 @@ static async userLogin (req, res) {
       });
     }
   });
-  }
-
-  
-
-}
+};
+export const logout = (req, res) => {
+  res.clearCookie("t");
+  return res.json({ message: "logout success" });
+};

@@ -1,9 +1,18 @@
-import { Router } from "express";
-import { categoryController } from "../controllers/index.js";
-const router = new Router();
+import express from "express";
+import { create, categoryById, read, update, remove, list } from '../controllers/category.js';
+const router = express.Router();
 //auth
+router.get('/category/:categoryId', read);
+router.get('/categories', list);
+router.param('categoryId', categoryById);
 
-router.post('/create',categoryController.createCategory);
-router.get('/all',categoryController.getCategories);
+router.post('/category/create',  create);
+// router.put('/category/:categoryUpdateId/:userId', requireSignin, isAuth, isAdmin, update);
+router.put('/category/:categoryId/:userId', update);
+
+router.delete('/category/:categoryId/:userId', remove);
+
+
+
 
 export default router;

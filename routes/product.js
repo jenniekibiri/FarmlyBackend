@@ -1,9 +1,9 @@
-import { Router } from "express";
-import { productController } from "../controllers/index.js";
-const router = new Router();
-//auth
+// import { Router } from "express";
+// import { productController } from "../controllers/index.js";
+// const router = new Router();
+// //auth
 
-router.post('/create',productController.createProduct);
-router.get('/all',productController.getProducts);
+// router.post('/create',productController.createProduct);
+// router.get('/all',productController.getProducts);
 
-export default router;
+// export default router;

@@ -1,6 +1,5 @@
 import express from 'express'
 import morgan from 'morgan'
-import routes from './routes/index.js'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -15,7 +14,15 @@ mongoose.connect(process.env.MONGOURL,{
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use('/', routes);
+import authRoutes from './routes/auth.js';
+// const userRoutes = require('./routes/user');
+import categoryRoutes  from './routes/category.js';
+app.use('/api', categoryRoutes);
+// app.use('/api', userRoutes);
+app.use('/api', authRoutes);
+// const productRoutes = require('./routes/product');
+// const braintreeRoutes = require('./routes/braintree');
+// const orderRoutes = require('./routes/order');
 app.use('*', (req, res) => res.status(404).send({
     message: 'Ooops route does not exist!'
   }));
