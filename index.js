@@ -2,7 +2,6 @@ import express from 'express'
 import morgan from 'morgan'
 import routes from './routes/index.js'
 import mongoose from 'mongoose'
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv'
 dotenv.config()
 const port = 5000
