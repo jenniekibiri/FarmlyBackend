@@ -1,5 +1,6 @@
 import { User } from '../models/user.js';
-export default class UserController {
+import bcrypt from 'bcryptjs'
+export default class authController {
 //create user
 static async createUser (req, res,next) {
   console.log(req.body)
@@ -27,19 +28,9 @@ static async createUser (req, res,next) {
         });
       });
   });
-  next()
+  next();
 }
 
-    static async getUsers(req,res){
-        User.find((err, user) => {
-            if (err) {
-              return res.status(400).json({ error: err });
-            }
-            res.json(user );
-          }).select("name email created updated");
-    }
-    static async getUser(req,res){
-        res.status(200).send({message:'user'})
-    }
+  
 
 }
