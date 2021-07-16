@@ -1,43 +1,44 @@
 import mongoose from "mongoose";
+const { ObjectId } = mongoose.Schema;
 const productSchema = new mongoose.Schema({
-  firstName: {
+  productName: {
     type: String,
     required: true,
     trim: true,
   },
-  lastName: {
+  description: {
     type: String,
     required: true,
     trim: true,
   },
-  email: {
+  price: {
+    type: Number,
+    required: true,
+    trim: true,
+  },
+  image: {
     type: String,
     required: true,
     trim: true,
   },
-  phone: {
-    type: String,
+  quantity: {
+    type: Number,
     required: true,
     trim: true,
   },
-  address: {
-    type: String,
-    required: true,
-    trim: true,
+  postedBy: {
+    type: ObjectId,
+    ref:'User',
   },
-  
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true,
+  category: {
+    type: ObjectId,
+    ref:'Category',
   },
   created: {
     type: Date,
     default: Date.now(),
   },
+
   updated: Date,
 });
 

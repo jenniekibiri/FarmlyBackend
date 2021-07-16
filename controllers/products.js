@@ -25,9 +25,9 @@ static async createProduct (req, res,next) {
               return res.status(400).json({ error: err });
             }
             res.json(user );
-          }).select("name email created updated");
+          }).select("productName description price quantity created updated");
     }
-    static async getUser(req,res){
+    static async getProduct(req,res){
         res.status(200).send({message:'user'})
     }
 
