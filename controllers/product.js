@@ -3,32 +3,32 @@ export default class ProductController {
 //create product
 static async createProduct (req, res,next) {
     const product = new Product(req.body);
-    user
+    product
       .save()
       .then(() => {
         res.json({
           message: "product added successfully!",
-          user,
+          product,
         });
       })
       .catch((error) => {
         res.json({
           error,
         });
-      });
+      });    
 
 }
 
     static async getProducts(req,res){
-        Product.find((err, user) => {
+        Product.find((err, product) => {
             if (err) {
               return res.status(400).json({ error: err });
             }
-            res.json(user );
+            res.json(product );
           }).select("productName description price quantity created updated");
     }
     static async getProduct(req,res){
-        res.status(200).send({message:'user'})
+        res.status(200).send({message:'product'})
     }
 
 }
