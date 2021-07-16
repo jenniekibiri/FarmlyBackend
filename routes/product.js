@@ -8,7 +8,6 @@ import {
   remove,
   update,
   list,
-  
 } from "../controllers/product.js";
 router.param("productId", productById);
 router.get("/product/:productId", read);
