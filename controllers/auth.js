@@ -1,8 +1,9 @@
 import { User } from '../models/user.js';
 import bcrypt from 'bcryptjs'
+import { response } from 'express';
 export default class authController {
 //create user
-static async createUser (req, res,next) {
+static async createUser (req, res) {
   console.log(req.body)
   const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
@@ -17,18 +18,18 @@ static async createUser (req, res,next) {
     user
       .save()
       .then(() => {
-        res.json({
+          res.status(200).json({
           message: "User added successfully!",
           user,
         });
       })
       .catch((error) => {
-        res.json({
+         res.status(500).json({
           error,
         });
       });
   });
-  next();
+
 }
 
   
