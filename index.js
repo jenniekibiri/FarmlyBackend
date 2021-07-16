@@ -13,6 +13,9 @@ mongoose.connect(process.env.MONGOURL,{
      useUnifiedTopology: true 
 }).then(()=>console.log('DB connected'));
 app.use(morgan('dev'));
-app.use('/', routes)
+app.use('/', routes);
+app.use('*', (req, res) => res.status(404).send({
+    message: 'Ooops route does not exist!'
+  }));
 
 app.listen(port,console.log(`server running on port ${port}`))
