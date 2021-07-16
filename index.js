@@ -20,7 +20,8 @@ import categoryRoutes  from './routes/category.js';
 app.use('/api', categoryRoutes);
 // app.use('/api', userRoutes);
 app.use('/api', authRoutes);
-// const productRoutes = require('./routes/product');
+import productRoutes from './routes/product.js';
+app.use('/api', productRoutes)
 // const braintreeRoutes = require('./routes/braintree');
 // const orderRoutes = require('./routes/order');
 app.use('*', (req, res) => res.status(404).send({
