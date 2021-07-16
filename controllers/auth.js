@@ -1,6 +1,7 @@
 import { User } from '../models/user.js';
 import bcrypt from 'bcryptjs'
-import { response } from 'express';
+import jwt from 'jsonwebtoken'
+
 export default class authController {
 //create user
 static async createUser (req, res) {
@@ -32,6 +33,31 @@ static async createUser (req, res) {
 
 }
 //user login
+static async userLogin (req, res) {
+    const { email, password } = req.body;
+  User.findOne({ email }, (err, user) => {
+    if (err || !user) {
+      return res.status(401).json({
+        message: "email doesnt exist",
+      });
+    }
+
+    if (user) {
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (!result) {
+          res.json({
+            message: "password doesnt match",
+          });
+        } else {
+          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+          res.cookie("t", token, { expire: new Date() + 9999 });
+          const { _id, name } = user;
+          return res.json({ token, user: { _id, email, name } });
+        }
+      });
+    }
+  });
+  }
 
   
 
