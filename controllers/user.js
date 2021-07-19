@@ -5,8 +5,8 @@ export const userById = (req, res, next, id) => {
     if (err || !user) {
       return res.status(400).json({ error: "user is not found" });
     }
-
     req.profile = user;
+    console.log(req.profile)
     next();
   });
 };

@@ -15,10 +15,10 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 import authRoutes from './routes/auth.js';
-// const userRoutes = require('./routes/user');
+import userRoutes from './routes/user.js';
 import categoryRoutes  from './routes/category.js';
 app.use('/api', categoryRoutes);
-// app.use('/api', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api', authRoutes);
 import productRoutes from './routes/product.js';
 app.use('/api', productRoutes)
