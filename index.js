@@ -2,10 +2,10 @@ import express from 'express'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-dotenv.config()
+dotenv.config();
+
 const port = 5000
 const app =express();
-
 mongoose.connect(process.env.MONGOURL,{
     useNewUrlParser:true,
     useCreateIndex:true,

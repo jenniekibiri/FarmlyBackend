@@ -2,6 +2,9 @@ import { User } from '../models/user.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
+import dotenv from 'dotenv'
+dotenv.config();
+
 export const register = async (req, res, next) => {
   const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
@@ -65,7 +68,6 @@ export const requireSignin = expressJwt({
   algorithms: ['RS256']
 });
 
-console.log(`${process.env.JWT_SECRET}`)
 export const isAuth = (req, res, next) => {
   let user = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!user) {
