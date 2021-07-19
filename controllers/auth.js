@@ -1,11 +1,11 @@
 import { User } from '../models/user.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import expressJwt from 'express-jwt'
+import dotenv from 'dotenv'
+dotenv.config();
 
-export default class authController {
-//create user
-static async createUser (req, res) {
-  console.log(req.body)
+export const register = async (req, res, next) => {
   const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
     return res.status(403).json({
@@ -19,22 +19,20 @@ static async createUser (req, res) {
     user
       .save()
       .then(() => {
-          res.status(200).json({
+        res.json({
           message: "User added successfully!",
           user,
         });
       })
       .catch((error) => {
-         res.status(500).json({
+        res.json({
           error,
         });
       });
   });
-
-}
-//user login
-static async userLogin (req, res) {
-    const { email, password } = req.body;
+};
+export const login = (req, res, next) => {
+  const { email, password } = req.body;
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
       return res.status(401).json({
@@ -51,14 +49,50 @@ static async userLogin (req, res) {
         } else {
           const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
           res.cookie("t", token, { expire: new Date() + 9999 });
-          const { _id, name } = user;
-          return res.json({ token, user: { _id, email, name } });
+          const { _id, name,role } = user;
+          return res.json({ token, user: { _id, email, name,role} });
         }
       });
     }
   });
-  }
+};
+export const logout = (req, res) => {
+  res.clearCookie("t");
+  return res.json({ message: "logout success" });
+};
 
+export const requireSignin = expressJwt({
   
+  secret: `${process.env.JWT_SECRET}`,
+  userProperty: 'auth',
+  algorithms: ['sha1', 'RS256', 'HS256'],
+});
 
-}
+export const isAuth = (req, res, next) => {
+  let user = req.profile && req.auth && req.profile._id == req.auth._id;
+  console.log(user)
+   if (!user) {
+      return res.status(403).json({
+          error: 'Access denied'
+      });
+  }
+  next();
+};
+
+export const isFarmer = (req, res, next) => {
+  if (req.profile.role === 'farmer') {
+      return res.status(403).json({
+          error: 'Farmer resource! Access denied'
+      });
+  }
+  next();
+};
+export const isAdmin = (req, res, next) => {
+  console.log(req.profile)
+  if (req.profile.role === 0) {
+      return res.status(403).json({
+          error: 'Admin resourse! Access denied'
+      });
+  }
+  next();
+};
