@@ -1,6 +1,6 @@
 import { Category } from "../models/Category.js";
 
-//create Category
+
 export const categoryById = (req, res, next, id) => {
   Category.findById(id).exec((err, category) => {
     if (err || !category) {
@@ -12,7 +12,7 @@ export const categoryById = (req, res, next, id) => {
     next();
   });
 };
-
+//create Category
 export const create = (req, res) => {
   const category = new Category(req.body);
   category.save((err, data) => {
@@ -25,7 +25,7 @@ export const create = (req, res) => {
   });
 };
 //get categoryby id
-export const read = (req, res) => {
+export const getCategoryById = (req, res) => {
   return res.json(req.category);
 };
 
@@ -68,7 +68,7 @@ export const remove = (req, res) => {
     }
   });
 };
-//working
+//all categories
 export const getAllCategories = (req, res) => {
   Category.find().exec((err, data) => {
     if (err) {

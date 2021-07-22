@@ -6,7 +6,7 @@ export const userById = (req, res, next, id) => {
       return res.status(400).json({ error: "user is not found" });
     }
     req.profile = user;
-    console.log(req.profile)
+    console.log(req.profile);
     next();
   });
 };
@@ -25,7 +25,7 @@ export const allUsers = (req, res, next) => {
     if (err) {
       return res.status(400).json({ error: err });
     }
-    res.json(user );
+    res.json(user);
   }).select("name email created updated");
 };
 export const getUser = (req, res) => {
