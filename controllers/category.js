@@ -13,7 +13,13 @@ export const categoryById = (req, res, next, id) => {
   });
 };
 //create Category
-export const create = (req, res) => {
+export const create =async (req, res) => {
+    const categoryExists= await Category.findOne({
+        categoryName:req.body.categoryName
+    });
+    if(categoryExists){
+        return res.status(403).json({error:'category already exists!'})
+    }
   const category = new Category(req.body);
   category.save((err, data) => {
     if (err) {
@@ -31,9 +37,6 @@ export const getCategoryById = (req, res) => {
 
 //update
 export const update = (req, res) => {
-  console.log("req.body", req.body);
-  console.log("category update param", req.params.categoryId);
-
   const category = req.category;
   category.name = req.body.name;
   category.save((err, data) => {

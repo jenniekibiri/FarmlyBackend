@@ -70,7 +70,6 @@ export const requireSignin = expressJwt({
 
 export const isAuth = (req, res, next) => {
   let user = req.profile && req.auth && req.profile._id == req.auth._id;
-  console.log(user)
    if (!user) {
       return res.status(403).json({
           error: 'Access denied'
@@ -88,7 +87,6 @@ export const isFarmer = (req, res, next) => {
   next();
 };
 export const isAdmin = (req, res, next) => {
-  console.log(req.profile)
   if (req.profile.role === 0) {
       return res.status(403).json({
           error: 'Admin resourse! Access denied'
