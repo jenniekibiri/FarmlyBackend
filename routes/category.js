@@ -1,12 +1,12 @@
 import express from "express";
 import { isAuth,isAdmin,requireSignin } from "../controllers/auth.js";
-import { create, categoryById, read, update, remove, list } from '../controllers/category.js';
+import { create, categoryById, read, update, remove, getAllCategories } from '../controllers/category.js';
 import { userById } from "../controllers/user.js";
 
 const router = express.Router();
 //auth
 router.get('/category/:categoryId', read);
-router.get('/categories', list);
+router.get('/categories', getAllCategories);
 router.param('categoryId', categoryById);
 
 router.post('/category/create/:userId', requireSignin,  isAdmin, create);
