@@ -13,5 +13,5 @@ router.put('/category/:categoryId/:userId', requireSignin, isAuth, isAdmin, upda
 router.delete('/category/:categoryId/:userId', requireSignin, isAuth, isAdmin, remove);
 router.param('userId', userById);
 
-
+                         
 export default router;

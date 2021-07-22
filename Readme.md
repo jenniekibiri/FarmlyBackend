@@ -9,3 +9,4 @@ remove
 get
 authorization -only admins can create,upate and delete a category
 
+postman documentation coming soon !!

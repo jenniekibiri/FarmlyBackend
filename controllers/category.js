@@ -52,7 +52,7 @@ export const update = (req, res) => {
 
 export const remove = (req, res) => {
   const category = req.category;
-  Product.find({ category }).exec((err, data) => {
+  Category.find({ category }).exec((err, data) => {
     if (data.length >= 1) {
       return res.status(400).json({
         message: `Sorry. You cant delete ${category.name}. It has ${data.length} associated products.`,
