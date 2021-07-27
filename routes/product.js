@@ -1,4 +1,6 @@
 import express from "express";
+import { userById } from "../controllers/user.js";
+
 const router = express.Router();
 
 import {
@@ -15,6 +17,8 @@ router.post("/product/create/:userId", create);
 router.delete("/product/:productId/:userId",remove);
 router.put("/product/:productId/:userId",update);
 router.get("/products", list);
+router.param('userId', userById);
+
 // router.get("/products/search", listSearch);
 // router.get("/products/related/:productId", listRelated);
 // router.get("/products/categories", listCategories);

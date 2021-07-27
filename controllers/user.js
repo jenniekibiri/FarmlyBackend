@@ -25,7 +25,7 @@ export const allUsers = (req, res, next) => {
       return res.status(400).json({ error: err });
     }
     res.json(user);
-  }).select("name email created updated");
+  }).select("name email role created updated");
 };
 export const getUser = (req, res) => {
   req.profile.password = undefined;

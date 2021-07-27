@@ -12,6 +12,7 @@ export const categoryById = (req, res, next, id) => {
     next();
   });
 };
+
 //create Category
 export const create =async (req, res) => {
     const categoryExists= await Category.findOne({

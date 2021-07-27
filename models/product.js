@@ -39,7 +39,10 @@ const productSchema = new mongoose.Schema({
     default: Date.now(),
   },
 
-  updated: Date,
+  updated:{
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 export const Product =mongoose.model('product', productSchema);
