@@ -36,7 +36,24 @@ export const allFarmers = (req, res, next) => {
     res.json(user);
 
   })
-  
+};
+export const allBuyers = (req, res, next) => {
+  User.find( {role:"buyer"},(err,user)=>{
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json(user);
+
+  })
+};
+export const allDrivers = (req, res, next) => {
+  User.find( {role:"driver"},(err,user)=>{
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json(user);
+
+  })
 };
 export const getUser = (req, res) => {
   req.profile.password = undefined;
