@@ -27,6 +27,17 @@ export const allUsers = (req, res, next) => {
     res.json(user);
   }).select("name email role created updated");
 };
+
+export const allFarmers = (req, res, next) => {
+  User.find( {role:"farmer"},(err,user)=>{
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    res.json(user);
+
+  })
+  
+};
 export const getUser = (req, res) => {
   req.profile.password = undefined;
   return res.json(req.profile);

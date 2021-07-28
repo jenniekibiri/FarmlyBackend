@@ -23,60 +23,48 @@ export const read = (req, res) => {
 };
 
 export const create = async (req, res) => {
- 
-    let form = new formidable.IncomingForm();
-    console.log("-------sanity border-----");
+  let form = new formidable.IncomingForm();
     form.keepExtensions = true;
-    form.parse (req, (err, fields, files) => {
-      fields.postedBy = req.profile;
-      const { productName, description, price, quantity, category } = fields;
-      if (!productName || !description || !price || !quantity || !category) {
-        return res.status(400).json({
-          error: "All fields are required",
+  form.parse(req, (err, fields, files) => {
+    fields.postedBy = req.profile;
+    const { productName, description, price, quantity, category } = fields;
+    if (!productName || !description || !price || !quantity || !category) {
+      return res.status(400).json({
+        error: "All fields are required",
+      });
+    }
+    // fields.postedBy=req.profile;
+    const query = { categoryName: fields.category };
+    Category.findOne(query, (err, category) => {
+      console.log(category);
+      if (category) {
+        fields.category = category;
+        let product = new Product(fields);
+        // 1kb = 1000
+        // 1mb = 1000000
+        if (files.photo) {
+          // console.log("FILES PHOTO: ", files.photo);
+          if (files.photo.size > 1000000) {
+            return res.status(400).json({
+              error: "Image should be less than 1mb in size",
+            });
+          }
+          product.photo.data = fs.readFileSync(files.photo.path);
+          product.photo.contentType = files.photo.type;
+        }
+
+        product.save((err, result) => {
+          if (err) {
+            console.log("PRODUCT CREATE ERROR ", err);
+            return res.status(400).json({
+              error: console.log(err),
+            });
+          }
+          res.json(result);
         });
       }
-
-      // fields.postedBy=req.profile;
-      const query = { categoryName: fields.category };
-      Category.findOne(query, (err, category) => {
-        console.log(category);
-        if(category){
-            fields.category = category
-            let product = new Product(fields);
-            // 1kb = 1000
-      // 1mb = 1000000
-      if (files.photo) {
-        // console.log("FILES PHOTO: ", files.photo);
-        if (files.photo.size > 1000000) {
-          return res.status(400).json({
-            error: "Image should be less than 1mb in size",
-          });
-        }
-        product.photo.data = fs.readFileSync(files.photo.path);
-        product.photo.contentType = files.photo.type;
-      }
-
-      product.save((err, result) => {
-        if (err) {
-          console.log("PRODUCT CREATE ERROR ", err);
-          return res.status(400).json({
-            error: console.log(err),
-          });
-        }
-        res.json(result);
-      });
-        }
-     
-    
-
-      });
-      
-
-
     });
-
-    
-   
+  });
 };
 
 export const remove = (req, res) => {
@@ -136,11 +124,12 @@ export const list = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find()
-    .select("-photo")
-    .populate("category")
-    .sort([[sortBy, order]])
-    .limit(limit)
+    // .select("-photo")
+    // .populate("category")
+    // .sort([[sortBy, order]])
+    // .limit(limit)
     .exec((err, products) => {
+    
       if (err) {
         return res.status(400).json({
           error: "Products not found",
@@ -151,7 +140,6 @@ export const list = (req, res) => {
 };
 export const listRelated = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-
   Product.find({ _id: { $ne: req.product }, category: req.product.category })
     .limit(limit)
     .populate("category", "_id name")
