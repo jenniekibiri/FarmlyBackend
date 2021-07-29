@@ -33,6 +33,7 @@ export const register = async (req, res, next) => {
 };
 export const login = (req, res, next) => {
   const { email, password } = req.body;
+ 
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
       return res.status(401).json({
@@ -49,12 +50,15 @@ export const login = (req, res, next) => {
         } else {
           const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
           res.cookie("t", token, { expire: new Date() + 9999 });
-          const { _id, name,role } = user;
-          return res.json({ token, user: { _id, email, name,role} });
+          const { _id, firstName,role } = user;
+          
+
+          return res.json({ token, user: { _id, email, firstName,role} });
         }
       });
     }
   });
+  
 };
 export const logout = (req, res) => {
   res.clearCookie("t");
