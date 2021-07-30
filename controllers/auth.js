@@ -50,7 +50,7 @@ export const login = (req, res, next) => {
         } else {
           const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
           res.cookie("t", token, { expire: new Date() + 9999 });
-          const { _id, firstName,role } = user;
+          const { _id, firstName,lastName,role } = user;
           
 
           return res.json({ token, user: { _id, email, firstName,lastName,role} });
