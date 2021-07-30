@@ -25,7 +25,7 @@ export const allUsers = (req, res, next) => {
       return res.status(400).json({ error: err });
     }
     res.json(user);
-  }).select("name email role created updated");
+  }).select("firstName  lastName phone email role created updated");
 };
 
 export const allFarmers = (req, res, next) => {

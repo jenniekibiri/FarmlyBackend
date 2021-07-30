@@ -22,10 +22,12 @@ export const create =async (req, res) => {
         return res.status(403).json({error:'category already exists!'})
     }
   const category = new Category(req.body);
+  console.log(req.body)
   category.save((err, data) => {
     if (err) {
+  
       return res.status(400).json({
-        error: errorHandler(err),
+        error:console.log(err),
       });
     }
     res.json({ data });

@@ -53,7 +53,7 @@ export const login = (req, res, next) => {
           const { _id, firstName,role } = user;
           
 
-          return res.json({ token, user: { _id, email, firstName,role} });
+          return res.json({ token, user: { _id, email, firstName,lastName,role} });
         }
       });
     }

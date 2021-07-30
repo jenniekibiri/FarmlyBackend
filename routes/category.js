@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/category/:categoryId', getCategoryById);
 router.get('/categories', getAllCategories);
 router.param('categoryId', categoryById);
-router.post('/category/create/:userId', requireSignin, isAuth, isAdmin, create);
+router.post('/category/create/',  create);
 router.put('/category/:categoryId/:userId', requireSignin, isAuth, isAdmin, update);
 router.delete('/category/:categoryId/:userId', requireSignin, isAuth, isAdmin, remove);
 router.param('userId', userById);
