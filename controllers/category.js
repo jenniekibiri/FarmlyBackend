@@ -54,24 +54,16 @@ export const update = (req, res) => {
 //delete
 
 export const remove = (req, res) => {
-  const category = req.category;
-  Category.find({ category }).exec((err, data) => {
-    if (data.length >= 1) {
+  const { category } = req;
+  category.remove((err, category) => {
+    if (err) {
       return res.status(400).json({
-        message: `Sorry. You cant delete ${category.name}. It has ${data.length} associated products.`,
-      });
-    } else {
-      category.remove((err, data) => {
-        if (err) {
-          return res.status(400).json({
-            error: errorHandler(err),
-          });
-        }
-        res.json({
-          message: "Category deleted",
-        });
+        error: err,
       });
     }
+    res.json({
+      message: "category deleted succefully",
+    });
   });
 };
 //all categories
