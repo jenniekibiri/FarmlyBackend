@@ -33,5 +33,8 @@ app.use("*", (req, res) =>
     message: "Ooops route does not exist!",
   })
 );
-
+app.use(function(req, res, next) {
+  console.log(`logging: req: ${util.inspect(req)}`);
+  next();
+});
 app.listen(port, console.log(`server running on port ${port}`));

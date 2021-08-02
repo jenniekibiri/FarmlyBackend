@@ -71,7 +71,7 @@ export const getAllCategories = (req, res) => {
   Category.find().exec((err, data) => {
     if (err) {
       return res.status(400).json({
-        error: errorHandler(err),
+        error: console.log(err),
       });
     }
     res.json(data);
