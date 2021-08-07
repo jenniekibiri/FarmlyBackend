@@ -36,7 +36,7 @@ export const login = (req, res, next) => {
  
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
-      return res.status(401).json({
+      return res.json({
         message: "email doesnt exist",
       });
     }
@@ -74,7 +74,7 @@ export const requireSignin = expressJwt({
 
 export const isAuth = (req, res, next) => {
   let user = req.profile && req.auth && req.profile._id == req.auth._id;
-  console.log(user)
+
    if (!user) {
       return res.status(403).json({
           error: 'Access denied'

@@ -4,7 +4,7 @@ import formidable from "formidable";
 import { Category } from "../models/Category.js";
 export const productById = (req, res, next, id) => {
   Product.findById(id)
-    .populate("category")
+    // .populate("category")
     .exec((err, product) => {
       if (err || !product) {
         return res.status(400).json({
@@ -27,6 +27,7 @@ export const create = async (req, res) => {
     form.keepExtensions = true;
   form.parse(req, (err, fields, files) => {
     fields.postedBy = req.profile;
+  
     const { productName, description, price, quantity, category } = fields;
     if (!productName || !description || !price || !quantity || !category) {
       return res.status(400).json({
@@ -36,7 +37,7 @@ export const create = async (req, res) => {
     // fields.postedBy=req.profile;
     const query = { categoryName: fields.category };
     Category.findOne(query, (err, category) => {
-      console.log(category);
+    
       if (category) {
         fields.category = category;
         let product = new Product(fields);
@@ -72,7 +73,7 @@ export const remove = (req, res) => {
   product.remove((err, deletedProduct) => {
     if (err) {
       return res.status(400).json({
-        error: errorHandler(err),
+        error: console.log(err)
       });
     }
     res.json({

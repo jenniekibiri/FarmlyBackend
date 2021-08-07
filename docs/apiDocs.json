@@ -1,0 +1,10 @@
+  
+{
+    "/": "api docs",
+    "/api/login": "login",
+    "/api/register": "register",
+    "/api/categories": "get all categories",
+    "/api/users": "get all users",
+    "/api/products": "get all products",
+    "/api/orders": "get all orders"
+  }
