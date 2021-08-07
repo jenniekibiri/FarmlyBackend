@@ -1,7 +1,7 @@
 import { Product } from "../models/product.js";
 import mongoose from "mongoose";
 import formidable from "formidable";
-import { Category } from "../models/Category.js";
+import { Category } from "../models/category.js";
 export const productById = (req, res, next, id) => {
   Product.findById(id)
     // .populate("category")
