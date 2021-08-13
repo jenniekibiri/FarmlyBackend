@@ -10,6 +10,7 @@ import {
   remove,
   update,
   list,
+  ProductsByUser
 } from "../controllers/product.js";
 router.param("productId", productById);
 router.get("/product/:productId", read);
@@ -18,7 +19,7 @@ router.delete("/product/:productId/:userId",remove);
 router.put("/product/:productId/:userId",update);
 router.get("/products", list);
 router.param('userId', userById);
-
+router.get("/products/by/:userId", ProductsByUser);
 // router.get("/products/search", listSearch);
 // router.get("/products/related/:productId", listRelated);
 // router.get("/products/categories", listCategories);

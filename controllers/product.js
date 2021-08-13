@@ -126,7 +126,7 @@ export const list = (req, res) => {
 
   Product.find()
     // .select("-photo")
-    // .populate("category")
+    .populate("category")
     // .sort([[sortBy, order]])
     // .limit(limit)
     .exec((err, products) => {
@@ -137,13 +137,14 @@ export const list = (req, res) => {
         });
       }
       res.json(products);
+      console.log(products)
     });
 };
 export const listRelated = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
   Product.find({ _id: { $ne: req.product }, category: req.product.category })
     .limit(limit)
-    .populate("category", "_id name")
+    .populate("category", "_id categoryName")
     .exec((err, products) => {
       if (err) {
         return res.status(400).json({
@@ -151,5 +152,20 @@ export const listRelated = (req, res) => {
         });
       }
       res.json(products);
+    });
+};
+ export const ProductsByUser = (req, res) => {
+   console.log(req.profile._id)
+  Product.find({ postedBy: req.profile._id })
+    .populate("postedBy", "firstName email ")
+    .populate("category")
+    .sort("_created")
+    .exec((err, posts) => {
+      if (err) {
+        return res.status(400).json({
+          error: console.log(err)
+        });
+      }
+      res.json(posts);
     });
 };

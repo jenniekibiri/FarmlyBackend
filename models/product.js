@@ -28,11 +28,11 @@ const productSchema = new mongoose.Schema({
   },
   postedBy: {
     type: ObjectId,
-    ref:'User',
+    ref:'user',
   },
   category: {
     type: ObjectId,
-    ref:'Category',
+    ref:'category',
   },
   created: {
     type: Date,
