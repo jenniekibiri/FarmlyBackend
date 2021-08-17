@@ -1,5 +1,4 @@
 import { Product } from "../models/product.js";
-import mongoose from "mongoose";
 import formidable from "formidable";
 import { Category } from "../models/category.js";
 export const productById = (req, res, next, id) => {
@@ -127,8 +126,8 @@ export const list = (req, res) => {
   Product.find()
     // .select("-photo")
     .populate("category")
-    // .sort([[sortBy, order]])
-    // .limit(limit)
+    .sort([[sortBy, order]])
+    .limit(limit)
     .exec((err, products) => {
     
       if (err) {
