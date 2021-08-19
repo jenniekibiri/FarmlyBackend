@@ -1,4 +1,5 @@
 import { Order }from '../models/order.js'
+import { Product } from '../models/product.js';
 // const { errorHandler } = require('../helpers/dbErrorHandler');
 // sendgrid for email npm i @sendgrid/mail
 // const sgMail = require('@sendgrid/mail');
@@ -19,8 +20,8 @@ export const orderById = (req, res, next, id) => {
 };
 
 export const create = (req, res) => {
-    console.log('CREATE ORDER: ', req.body);
-    console.log(req.profile);
+   
+    console.log(req.body);
     req.body.user = req.profile;
     const order = new Order(req.body);
     order.save((error, data) => {
@@ -52,6 +53,8 @@ export const create = (req, res) => {
 export const listOrders = (req, res) => {
     Order.find()
         .populate('user', '_id email address')
+        // .populate('products', 'productName price')
+    
         // .sort('-created')
         .exec((err, orders) => {
             if (err) {
@@ -59,6 +62,7 @@ export const listOrders = (req, res) => {
                     error: console.log(err)
                 });
             }
+         
             res.json(orders);
         });
 };
