@@ -9,8 +9,8 @@ import {orderById,create,getStatusValues,updateOrderStatus,listOrders} from '../
 
 router.post(
     "/order/create/:userId",
-    requireSignin,
-    isAuth,
+  
+   
     create
 );
 
