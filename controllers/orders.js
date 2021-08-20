@@ -1,9 +1,11 @@
 import { Order }from '../models/order.js'
+import dotenv from 'dotenv'
+dotenv.config();
 import { Product } from '../models/product.js';
 // const { errorHandler } = require('../helpers/dbErrorHandler');
 // sendgrid for email npm i @sendgrid/mail
-// const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey('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');
+import sgMail from '@sendgrid/mail';
+sgMail.setApiKey(process.env.SG);
 
 export const orderById = (req, res, next, id) => {
     Order.findById(id)
@@ -21,7 +23,7 @@ export const orderById = (req, res, next, id) => {
 
 export const create = (req, res) => {
    
-    console.log(req.body);
+    console.log(req.body.numOfItems);
     req.body.user = req.profile;
     const order = new Order(req.body);
     order.save((error, data) => {
@@ -34,18 +36,24 @@ export const create = (req, res) => {
         // order.address
         // order.products.length
         // order.amount
-        // const emailData = {
-        //     to: 'jennieycharles@gmail.com',
-        //     from: 'noreply@ecommerce.com',
-        //     subject: `A new order is received`,
-        //     html: `
-        //     <p>Customer name:</p>
-        //     <p>Total products: ${order.products.length}</p>
-        //     <p>Total cost: ${order.amount}</p>
-        //     <p>Login to dashboard to the order in detail.</p>
-        // `
-        // };
-        // sgMail.send(emailData);
+        const emailData = {
+            to: 'jennykibiri@gmail.com',
+            from: 'jennieycharles@gmail.com',
+            subject: `A new order is received`,
+            html: `
+            <img width='100% 'height="86" src="https://i.imgur.com/sAklWb3.png">
+            <p>Hi, ${req.body.user.firstName}</p>
+            <p>Total products: ${req.body.numOfItems}</p>
+            <p>Total cost:Ksh ${req.body.amount} </p>
+            <p>Login to your account to Track and see the order details.</p>
+        `
+        };
+        sgMail.send(emailData).then((response) => {
+            console.log(response)
+            console.log('Message sent')
+        }).catch((error) => {
+            console.log(error.response.body)
+        });
         res.json(data);
     });
 };
