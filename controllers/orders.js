@@ -38,6 +38,22 @@ export const orderByUser = (req, res) => {
        res.json(posts);
      });
  };
+ export const  deliveryOrders = (req, res) => {
+
+  console.log(req.params)
+ Order.find({status: req.params.status })
+   .populate("postedBy", "firstName email ")
+   .populate("category")
+   .sort("_created")
+   .exec((err, posts) => {
+     if (err) {
+       return res.status(400).json({
+         error: console.log(err)
+       });
+     }
+     res.json(posts);
+   });
+};
 export const create = (req, res) => {
   console.log(req.body.numOfItems);
   req.body.user = req.profile;

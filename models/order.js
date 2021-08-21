@@ -13,11 +13,8 @@ export const CartItem = mongoose.model("CartItem", CartItemSchema);
 
 const OrderSchema = new mongoose.Schema(
   {
-       
-      
-
-      product: { type: Object, ref: "product" },
-      transaction_id: {},
+    product: { type: Object, ref: "product" },
+    transaction_id: {},
     amount: { type: Number },
     numOfItems: Number,
     shippingAddress: String,

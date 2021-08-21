@@ -10,7 +10,8 @@ import {
   getStatusValues,
   updateOrderStatus,
   listOrders,
-  orderByUser
+  orderByUser,
+  deliveryOrders
 } from "../controllers/orders.js";
 // const { decreaseQuantity } = require("../controllers/product");
 
@@ -25,6 +26,11 @@ router.get(
     "/order/by/:userId/:status",
    
     orderByUser
+  );
+  router.get(
+    "/order/:status",
+   
+    deliveryOrders
   );
 router.get(
   "/order/status-values/:userId",
