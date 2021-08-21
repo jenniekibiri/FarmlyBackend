@@ -57,7 +57,7 @@ export const create = (req, res) => {
       from: "jennieycharles@gmail.com",
       subject: `A new order is received`,
       html: `
-            <img width='100% 'height="86" src="https://i.imgur.com/sAklWb3.png">
+            <img width='100% 'height="125" src="https://i.imgur.com/sAklWb3.png">
             <p>Hi, ${req.body.user.firstName}</p>
             <p>Total products: ${req.body.numOfItems}</p>
             <p>Total cost:Ksh ${req.body.amount} </p>
