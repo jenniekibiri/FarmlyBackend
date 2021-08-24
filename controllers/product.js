@@ -22,36 +22,34 @@ export const read = (req, res) => {
 };
 
 export const create = async (req, res) => {
-  let form = new formidable.IncomingForm();
-    form.keepExtensions = true;
-  form.parse(req, (err, fields, files) => {
-    fields.postedBy = req.profile;
-  
-    const { productName, description, price, quantity, category } = fields;
+
+    req.body.postedBy = req.profile;
+      const { productName, description, price, quantity, category } = req.body;
+      console.log(req.body)
     if (!productName || !description || !price || !quantity || !category) {
       return res.status(400).json({
         error: "All fields are required",
       });
     }
     // fields.postedBy=req.profile;
-    const query = { categoryName: fields.category };
+    const query = { categoryName: req.body.category };
     Category.findOne(query, (err, category) => {
     
       if (category) {
-        fields.category = category;
-        let product = new Product(fields);
+        req.body.category = category;
+        let product = new Product(req.body);
         // 1kb = 1000
         // 1mb = 1000000
-        if (files.photo) {
-          // console.log("FILES PHOTO: ", files.photo);
-          if (files.photo.size > 1000000) {
-            return res.status(400).json({
-              error: "Image should be less than 1mb in size",
-            });
-          }
-          product.photo.data = fs.readFileSync(files.photo.path);
-          product.photo.contentType = files.photo.type;
-        }
+        // if (files.photo) {
+        //   // console.log("FILES PHOTO: ", files.photo);
+        //   if (files.photo.size > 1000000) {
+        //     return res.status(400).json({
+        //       error: "Image should be less than 1mb in size",
+        //     });
+        //   }
+        //   product.photo.data = fs.readFileSync(files.photo.path);
+        //   product.photo.contentType = files.photo.type;
+        // }
 
         product.save((err, result) => {
           if (err) {
@@ -64,7 +62,7 @@ export const create = async (req, res) => {
         });
       }
     });
-  });
+  
 };
 
 export const remove = (req, res) => {
