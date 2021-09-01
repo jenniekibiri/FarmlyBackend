@@ -2,8 +2,8 @@
   "name": "farmlybackend",
   "version": "1.0.0",
   "description": "Farmly",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
   "engines": {
     "npm": "6.14.11",
     "node": "14.16.0"
@@ -12,6 +12,11 @@
     "test": "jest --runInBand test",
     "coverage": "jest --collectCoverageFrom=src/**.js --coverage test",
     "start": "nodemon index.js"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   },
   "author": "",
   "license": "ISC",
@@ -30,9 +35,13 @@
     "mongo-seeding": "^3.7.0",
     "mongoose": "^5.13.2",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jenniekibiri/FarmlyBackend.git"

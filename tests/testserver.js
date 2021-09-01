@@ -6,24 +6,17 @@ import cors from "cors";
 import fs from 'fs'
 dotenv.config();
 
-const port = process.env.PORT || 8080;
+const port =  8080;
 const app = express();
-mongoose
-  .connect(process.env.MONGOURL, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("DB connected"));
-app.use(morgan("dev"));
+ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/user.js";
-import categoryRoutes from "./routes/category.js";
-import productRoutes from "./routes/product.js";
-import orderRoutes from "./routes/orders.js";
+import authRoutes from "../routes/auth.js";
+import userRoutes from "../routes/user.js";
+import categoryRoutes from "../routes/category.js";
+import productRoutes from "../routes/product.js";
+import orderRoutes from "../routes/orders.js";
 app.use("/api", categoryRoutes);
 app.use("/api", userRoutes);
 app.use("/api", authRoutes);
@@ -47,6 +40,6 @@ app.get("/", (req, res) => {
   });
 });
 
+const server = app.listen(port);
 
-app.listen(port, console.log(`server running on port ${port}`));
-
+module.exports = server;
