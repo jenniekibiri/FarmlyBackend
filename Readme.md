@@ -1,7 +1,7 @@
 # Farmly 
 
-![Coverage lines](coverage\badge-lines.svg) ![Coverage functions](coverage\badge-functions.svg)
-![Coverage branches](coverage\badge-branches.svg) ![Coverage statements](coverage\badge-statements.svg)
+![Coverage lines](coverage/badge-lines.svg) ![Coverage functions](coverage/badge-functions.svg)
+![Coverage branches](coverage/badge-branches.svg) ![Coverage statements](coverage/badge-statements.svg)
 
 # A complete nodejs backend  
 ## heavy use of jwt
