@@ -47,9 +47,7 @@ describe("Users Endpoints", () => {
         // Check type and length
         expect(Array.isArray(response.body)).toBeTruthy();
         expect(response.body.length).toEqual(1);
-
         // Check data
-
         expect(response.body[0].firstName).toBe(user.firstName);
         expect(response.body[0].email).toBe(user.email);
         expect(response.body[0].phone).toBe(user.phone);
@@ -100,18 +98,42 @@ describe("Category Endpoints", () => {
         expect(category.categoryName).toBe(data.categoryName);
       });
   });
-});
-// test("GET /api/posts/:id", async () => {
-//   const post = await Post.create({ title: "Post 1", content: "Lorem ipsum" });
+  test("GET /api/category/:categoryId", async () => {
+    const category = await Category.create({
+      "categoryName":"pumpkins"
+      });
+  
+    await supertest(app).get(`/api/category/${category._id}`)
+      .expect(200)
+      .then((response) => {
+        console.log( typeof response.body._id)
+        console.log( typeof category._id)
+        expect(JSON.stringify(response.body._id)).toStrictEqual(JSON.stringify(category._id));
+        expect(response.body.categoryName).toStrictEqual(category.categoryName);
+      
+      });
+  });
 
-//   await supertest(app).get("/api/posts/" + post.id)
-//     .expect(200)
-//     .then((response) => {
-//       expect(response.body._id).toBe(post.id);
-//       expect(response.body.title).toBe(post.title);
-//       expect(response.body.content).toBe(post.content);
-//     });
-// });
+  test("GET /api/categories", async () => {
+    const category = await Category.create({
+      "categoryName":"pumpkins"
+      },
+      {
+        "categoryName":"cereals"
+        }
+      );
+  
+    await supertest(app).get(`/api/categories`)
+      .expect(200)
+      .then((response) => {
+        console.log( typeof response.body._id)
+       
+        expect(response.body[0].categoryName).toStrictEqual(category[0].categoryName);
+        expect(response.body[1].categoryName).toStrictEqual(category[1].categoryName);
+      });
+  });
+});
+
 
 // test("PATCH /api/posts/:id", async () => {
 //   const post = await Post.create({ title: "Post 1", content: "Lorem ipsum" });
@@ -135,16 +157,14 @@ describe("Category Endpoints", () => {
 //     });
 // });
 
-// test("DELETE /api/posts/:id", async () => {
-//   const post = await Post.create({
-//     title: "Post 1",
-//     content: "Lorem ipsum",
-//   });
-
+// test("DELETE /api/category/:categoryId/:id", async () => {
+//   const category = await Category.create({
+//     "categoryName":"pumpkins"
+//     });
 //   await supertest(app)
-//     .delete("/api/posts/" + post.id)
+//     .delete(`/api/category/${category._id}`)
 //     .expect(204)
 //     .then(async () => {
-//       expect(await Post.findOne({ _id: post.id })).toBeFalsy();
+//       expect(await Post.findOne({ _id: category.id })).toBeFalsy();
 //     });
 // });

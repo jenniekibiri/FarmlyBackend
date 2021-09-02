@@ -10,8 +10,8 @@
   },
   "scripts": {
     "test": "jest --runInBand test",
-    "coverage": "jest --coverage --coverageReporters=text-lcov --forceExit | coveralls test",
-    "start": "nodemon index.js"
+    "coverage": "jest --coverage test",
+        "start": "nodemon index.js"
   },
   "jest": {
     "transform": {
@@ -23,7 +23,7 @@
       "!**/vendor/**"
     ],
     "coverageReporters": [
-      "json-summary",
+      "json-summary", 
       "text",
       "lcov"
     ]
@@ -35,7 +35,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-  
     "dotenv": "^10.0.0",
     "eslint-plugin-prettier": "^3.4.0",
     "express": "^4.17.1",
