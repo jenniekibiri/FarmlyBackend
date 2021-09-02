@@ -10,13 +10,18 @@
   },
   "scripts": {
     "test": "jest --runInBand test",
-    "coverage": "jest --collectCoverageFrom=src/**.js --coverage test",
+    "coverage": "jest --coverage test",
     "start": "nodemon index.js"
   },
   "jest": {
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
-    }
+    },
+    "collectCoverageFrom": [
+      "*/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ]
   },
   "author": "",
   "license": "ISC",
