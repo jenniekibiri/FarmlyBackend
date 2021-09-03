@@ -22,8 +22,7 @@ export const orderById = (req, res, next, id) => {
 };
 export const orderByUser = (req, res) => {
     console.log(req.profile._id)
-    console.log(req.params)
-   Order.find({$and:[ {user: {
+    Order.find({$and:[ {user: {
        _id:req.profile._id
    } },{status: req.params.status }]})
      .populate("postedBy", "firstName email ")
@@ -40,7 +39,7 @@ export const orderByUser = (req, res) => {
  };
  export const  deliveryOrders = (req, res) => {
 
-  console.log(req.params)
+  (req.params)
  Order.find({status: req.params.status })
    .populate("postedBy", "firstName email ")
    .populate("category")
@@ -48,14 +47,14 @@ export const orderByUser = (req, res) => {
    .exec((err, posts) => {
      if (err) {
        return res.status(400).json({
-         error: console.log(err)
+         error: (err)
        });
      }
      res.json(posts);
    });
 };
 export const create = (req, res) => {
-  console.log(req.body.numOfItems);
+  (req.body.numOfItems);
   req.body.user = req.profile;
   const order = new Order(req.body);
   order.save((error, data) => {
@@ -69,7 +68,7 @@ export const create = (req, res) => {
     // order.products.length
     // order.amount
     const emailData = {
-      to: "jennykibiri@gmail.com",
+      to: `${req.body.user.email}`,
       from: "jennieycharles@gmail.com",
       subject: `A new order is received`,
       html: `
