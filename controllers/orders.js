@@ -42,6 +42,7 @@ export const orderByUser = (req, res) => {
   (req.params)
  Order.find({status: req.params.status })
    .populate("postedBy", "firstName email ")
+   .populate("user", "_id email address phone")
    .populate("category")
    .sort("_created")
    .exec((err, posts) => {
@@ -54,9 +55,9 @@ export const orderByUser = (req, res) => {
    });
 };
 export const create = (req, res) => {
- console.log('hddddddddddddddddddddddddddddddddddddddddddd')
+ 
   req.body.user = req.profile;
-  console.log(req.body)
+ 
   const order = new Order(req.body);
   order.save((error, data) => {
     if (error) {
