@@ -54,8 +54,9 @@ export const orderByUser = (req, res) => {
    });
 };
 export const create = (req, res) => {
-  (req.body.numOfItems);
+ console.log('hddddddddddddddddddddddddddddddddddddddddddd')
   req.body.user = req.profile;
+  console.log(req.body)
   const order = new Order(req.body);
   order.save((error, data) => {
     if (error) {
