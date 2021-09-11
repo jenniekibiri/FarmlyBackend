@@ -12,7 +12,7 @@
     "test": "jest --runInBand test",
     "badges": "npm test  && jest-coverage-badges",
     "coverage": "jest --coverage test",
-        "start": "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "jest": {
     "transform": {
@@ -24,7 +24,7 @@
       "!**/vendor/**"
     ],
     "coverageReporters": [
-      "json-summary", 
+      "json-summary",
       "text",
       "lcov"
     ]
